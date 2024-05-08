@@ -1,11 +1,13 @@
 package com.fhai.myregistry.service;
 
-import com.flhai.iregistry.model.InstanceMeta;
+
+import com.fhai.myregistry.model.InstanceMeta;
 
 import java.util.List;
 import java.util.Map;
 
 public interface RegistryService {
+    // 最基础的三个方法
     InstanceMeta register(String service, InstanceMeta instance);
     InstanceMeta unregister(String service, InstanceMeta instance);
     List<InstanceMeta> getAllInstances(String service);
