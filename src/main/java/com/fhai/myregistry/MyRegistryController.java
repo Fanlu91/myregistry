@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @Slf4j
 public class MyRegistryController {
@@ -31,8 +34,33 @@ public class MyRegistryController {
      * find all instances of service
      */
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public Object findAllInstances(@RequestParam String service) {
+    public List<InstanceMeta> findAllInstances(@RequestParam String service) {
         log.info("==> get all instances of service: {}", service);
         return myRegistryService.getAllInstances(service);
     }
+
+    @RequestMapping(value = "/renew", method = RequestMethod.POST)
+    public Long renew(@RequestParam String service, @RequestBody InstanceMeta instance) {
+        log.info("==> renew service: {}, instance: {}", service, instance);
+        return myRegistryService.renew(instance, service);
+    }
+
+    @RequestMapping(value = "/renews", method = RequestMethod.POST)
+    public Long renews(@RequestParam String services, @RequestBody InstanceMeta instance) {
+        log.info("==> renew services: {}, instance: {}", services, instance);
+        return myRegistryService.renew(instance, services.split(","));
+    }
+
+    @RequestMapping(value = "/version", method = RequestMethod.GET)
+    public Long version(@RequestParam String service) {
+        log.info("==> get version of service: {}", service);
+        return myRegistryService.version(service);
+    }
+
+    @RequestMapping(value = "/versions", method = RequestMethod.GET)
+    public Map<String, Long> versions(@RequestParam String services) {
+        log.info("==> get versions of services: {}", services);
+        return myRegistryService.versions(services.split(","));
+    }
+
 }
