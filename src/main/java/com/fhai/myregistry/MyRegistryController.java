@@ -1,6 +1,8 @@
 package com.fhai.myregistry;
 
 
+import com.fhai.myregistry.cluster.Cluster;
+import com.fhai.myregistry.cluster.Server;
 import com.fhai.myregistry.model.InstanceMeta;
 import com.fhai.myregistry.service.RegistryService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,9 @@ import java.util.Map;
 public class MyRegistryController {
     @Autowired
     RegistryService myRegistryService;
+
+    @Autowired
+    Cluster cluster;
 
     // 注册服务
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -63,4 +68,24 @@ public class MyRegistryController {
         return myRegistryService.versions(services.split(","));
     }
 
+    // info
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public Server info() {
+        log.info("==> get self info: {}", cluster.self());
+        return cluster.self();
+    }
+
+    // cluster
+    @RequestMapping(value = "/cluster", method = RequestMethod.GET)
+    public List<Server> cluster() {
+        log.info("==> get cluster info: {}", cluster.getServers());
+        return cluster.getServers();
+    }
+
+    // leader
+    @RequestMapping(value = "/leader", method = RequestMethod.GET)
+    public Server leader() {
+        log.info("==> get leader info: {}", cluster.leader());
+        return cluster.leader();
+    }
 }

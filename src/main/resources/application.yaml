@@ -4,3 +4,8 @@ server:
 spring:
   application:
     name: myregistry
+myregistry:
+  serverList:
+    - http://localhost:8484
+    - http://localhost:8485
+    - http://localhost:8486

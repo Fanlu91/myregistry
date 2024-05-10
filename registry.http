@@ -17,7 +17,6 @@ Content-Type: application/json
   }
 }
 
-
 ### 取消注册一个实例
 POST http://localhost:8484/unregister?service=com.flhai.myrpc.UserService
 Content-Type: application/json
@@ -25,7 +24,7 @@ Content-Type: application/json
 {
   "context": "myrpc",
   "host": "127.0.0.1",
-  "port": 8088,
+  "port": 8081,
   "scheme": "http"
 }
 
@@ -41,7 +40,7 @@ Content-Type: application/json
 }
 
 ### 获取服务的版本
-POST http://localhost:8484/version?service=com.flhai.myrpc.UserService
+GET http://localhost:8484/version?service=com.flhai.myrpc.UserService
 
 
 ### info
