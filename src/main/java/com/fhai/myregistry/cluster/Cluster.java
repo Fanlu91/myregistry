@@ -48,19 +48,25 @@ public class Cluster {
             } else if (url.contains("127.0.0.1")) {
                 url = url.replace("127.0.0.1", host);
             }
+            // if server is myself, then add MYSELF to serverList
+            // when update later on, MYSELF will be updated
+            if (url.equals(MYSELF.getUrl())) {
+                serverList.add(MYSELF);
+            } else {
+                server.setUrl(url);
+                server.setStatus(false);
+                server.setLeader(false);
+                server.setVersion(-1L);
+                serverList.add(server);
+            }
 
-            server.setUrl(url);
-            server.setStatus(false); // 默认为不可用
-            server.setLeader(false);
-            server.setVersion(-1L);
-            serverList.add(server);
         });
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             log.info("cluster check running...");
             updateServers();
             electLeader();
-        }, 10, 5, TimeUnit.SECONDS);
+        }, 1, 5, TimeUnit.SECONDS);
     }
 
     /**
@@ -108,16 +114,19 @@ public class Cluster {
             log.info("elect failed. no server available.");
         }
         // set MYSELF leader status
-        MYSELF.setLeader(candidate != null && candidate.getUrl().equals(MYSELF.getUrl()));
-
+//        System.out.println(candidate.equals(MYSELF));
+//        MYSELF.setLeader(candidate != null && candidate.equals(MYSELF));
     }
 
     /**
      * get and update all available servers
      */
     private void updateServers() {
-        serverList.forEach(server -> {
+        serverList.stream().parallel().forEach(server -> {
             try {
+                if (server.equals(MYSELF)) {
+                    return;
+                }
                 Server info = HttpInvoker.httpGet(server.getUrl() + "/info", Server.class);
                 // if info exits, then the server is available
                 if (info != null) {
