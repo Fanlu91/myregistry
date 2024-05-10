@@ -1,6 +1,7 @@
 package com.fhai.myregistry.service;
 
 
+import com.fhai.myregistry.cluster.Snapshot;
 import com.fhai.myregistry.model.InstanceMeta;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,7 +26,7 @@ public class MyRegistryService implements RegistryService {
     static AtomicLong VERSION = new AtomicLong(0);
 
     @Override
-    public InstanceMeta register(String service, InstanceMeta instance) {
+    public synchronized InstanceMeta register(String service, InstanceMeta instance) {
         // 服务名和实例名是一对多的关系
         instance.setStatus(true);
         List<InstanceMeta> instanceMetas = REGISTRY.get(service);
@@ -43,7 +44,7 @@ public class MyRegistryService implements RegistryService {
     }
 
     @Override
-    public InstanceMeta unregister(String service, InstanceMeta instance) {
+    public synchronized InstanceMeta unregister(String service, InstanceMeta instance) {
         instance.setStatus(false);
         List<InstanceMeta> instanceMetas = REGISTRY.get(service);
         if (instanceMetas == null || instanceMetas.isEmpty()) {
@@ -86,5 +87,30 @@ public class MyRegistryService implements RegistryService {
             versions.put(service, VERSIONS.get(service));
         }
         return versions;
+    }
+
+    /**
+     * deep copy
+     *
+     * @return
+     */
+    public static synchronized Snapshot snapshot() {
+        MultiValueMap<String, InstanceMeta> registry = new LinkedMultiValueMap<>();
+        registry.addAll(REGISTRY);
+        Map<String, Long> versions = new HashMap<>(VERSIONS);
+        Map<String, Long> timestamp = new HashMap<>(TIMESTAMP);
+        return new Snapshot(registry, versions, timestamp, VERSION.get());
+    }
+
+
+    public static synchronized long restore(Snapshot snapshot) {
+        REGISTRY.clear();
+        REGISTRY.addAll(snapshot.getREGISTRY());
+        VERSIONS.clear();
+        VERSIONS.putAll(snapshot.getVERSIONS());
+        TIMESTAMP.clear();
+        TIMESTAMP.putAll(snapshot.getTIMESTAMP());
+        VERSION.set(snapshot.getVERSION());
+        return VERSION.get();
     }
 }

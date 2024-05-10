@@ -2,6 +2,7 @@ package com.fhai.myregistry.cluster;
 
 import com.fhai.myregistry.MyRegistryConfigProperties;
 import com.fhai.myregistry.http.HttpInvoker;
+import com.fhai.myregistry.service.MyRegistryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.commons.util.InetUtils;
@@ -64,9 +65,25 @@ public class Cluster {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             log.info("cluster check running...");
-            updateServers();
-            electLeader();
+            try {
+                updateServers();
+                electLeader();
+                syncSnapshotFromLeader();
+
+            } catch (Exception e) {
+                log.error("cluster check error", e);
+            }
+
         }, 1, 5, TimeUnit.SECONDS);
+    }
+
+    private void syncSnapshotFromLeader() {
+        if (!MYSELF.isLeader() && MYSELF.getVersion() < leader().getVersion()) {
+            log.info("sync snapshot from leader: {}", leader());
+            Snapshot snapshot = HttpInvoker.httpGet(leader().getUrl() + "/snapshot", Snapshot.class);
+            log.info("restore snapshot: {}", snapshot);
+            MyRegistryService.restore(snapshot);
+        }
     }
 
     /**
@@ -113,8 +130,6 @@ public class Cluster {
         } else {
             log.info("elect failed. no server available.");
         }
-        // set MYSELF leader status
-//        System.out.println(candidate.equals(MYSELF));
 //        MYSELF.setLeader(candidate != null && candidate.equals(MYSELF));
     }
 

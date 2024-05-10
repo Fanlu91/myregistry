@@ -3,7 +3,9 @@ package com.fhai.myregistry;
 
 import com.fhai.myregistry.cluster.Cluster;
 import com.fhai.myregistry.cluster.Server;
+import com.fhai.myregistry.cluster.Snapshot;
 import com.fhai.myregistry.model.InstanceMeta;
+import com.fhai.myregistry.service.MyRegistryService;
 import com.fhai.myregistry.service.RegistryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,4 +90,12 @@ public class MyRegistryController {
         log.info("==> get leader info: {}", cluster.leader());
         return cluster.leader();
     }
+
+    // snapshot
+    @RequestMapping(value = "/snapshot", method = RequestMethod.GET)
+    public Snapshot snapshot() {
+        log.info("==> get snapshot info: {}", MyRegistryService.snapshot());
+        return MyRegistryService.snapshot();
+    }
+
 }
