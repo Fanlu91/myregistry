@@ -1,4 +1,4 @@
-package com.fhai.myregistry.model;
+package com.flhai.myregistry.model;
 
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;

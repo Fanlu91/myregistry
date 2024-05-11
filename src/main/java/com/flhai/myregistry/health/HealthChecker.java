@@ -1,4 +1,4 @@
-package com.fhai.myregistry.health;
+package com.flhai.myregistry.health;
 
 public interface HealthChecker {
     void start();

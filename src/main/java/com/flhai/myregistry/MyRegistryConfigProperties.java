@@ -1,4 +1,4 @@
-package com.fhai.myregistry;
+package com.flhai.myregistry;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

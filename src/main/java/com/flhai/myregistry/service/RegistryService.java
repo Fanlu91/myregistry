@@ -1,8 +1,7 @@
-package com.fhai.myregistry.service;
+package com.flhai.myregistry.service;
 
 
-import com.fhai.myregistry.cluster.Snapshot;
-import com.fhai.myregistry.model.InstanceMeta;
+import com.flhai.myregistry.model.InstanceMeta;
 
 import java.util.List;
 import java.util.Map;

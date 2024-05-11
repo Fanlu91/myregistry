@@ -1,8 +1,8 @@
-package com.fhai.myregistry.cluster;
+package com.flhai.myregistry.cluster;
 
-import com.fhai.myregistry.MyRegistryConfigProperties;
-import com.fhai.myregistry.http.HttpInvoker;
-import com.fhai.myregistry.service.MyRegistryService;
+import com.flhai.myregistry.MyRegistryConfigProperties;
+import com.flhai.myregistry.http.HttpInvoker;
+import com.flhai.myregistry.service.MyRegistryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.commons.util.InetUtils;
@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class Cluster {

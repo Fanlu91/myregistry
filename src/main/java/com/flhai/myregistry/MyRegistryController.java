@@ -1,12 +1,12 @@
-package com.fhai.myregistry;
+package com.flhai.myregistry;
 
 
-import com.fhai.myregistry.cluster.Cluster;
-import com.fhai.myregistry.cluster.Server;
-import com.fhai.myregistry.cluster.Snapshot;
-import com.fhai.myregistry.model.InstanceMeta;
-import com.fhai.myregistry.service.MyRegistryService;
-import com.fhai.myregistry.service.RegistryService;
+import com.flhai.myregistry.cluster.Cluster;
+import com.flhai.myregistry.cluster.Server;
+import com.flhai.myregistry.cluster.Snapshot;
+import com.flhai.myregistry.model.InstanceMeta;
+import com.flhai.myregistry.service.MyRegistryService;
+import com.flhai.myregistry.service.RegistryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

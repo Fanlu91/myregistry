@@ -1,4 +1,4 @@
-package com.fhai.myregistry.http;
+package com.flhai.myregistry.http;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;

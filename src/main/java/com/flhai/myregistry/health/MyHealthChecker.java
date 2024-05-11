@@ -1,10 +1,9 @@
-package com.fhai.myregistry.health;
+package com.flhai.myregistry.health;
 
-import com.fhai.myregistry.model.InstanceMeta;
-import com.fhai.myregistry.service.MyRegistryService;
-import com.fhai.myregistry.service.RegistryService;
+import com.flhai.myregistry.model.InstanceMeta;
+import com.flhai.myregistry.service.MyRegistryService;
+import com.flhai.myregistry.service.RegistryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

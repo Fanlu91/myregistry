@@ -1,10 +1,10 @@
-package com.fhai.myregistry;
+package com.flhai.myregistry;
 
-import com.fhai.myregistry.cluster.Cluster;
-import com.fhai.myregistry.health.HealthChecker;
-import com.fhai.myregistry.health.MyHealthChecker;
-import com.fhai.myregistry.service.MyRegistryService;
-import com.fhai.myregistry.service.RegistryService;
+import com.flhai.myregistry.cluster.Cluster;
+import com.flhai.myregistry.health.HealthChecker;
+import com.flhai.myregistry.health.MyHealthChecker;
+import com.flhai.myregistry.service.MyRegistryService;
+import com.flhai.myregistry.service.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

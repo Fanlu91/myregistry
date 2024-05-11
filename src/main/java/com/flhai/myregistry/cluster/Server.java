@@ -1,4 +1,4 @@
-package com.fhai.myregistry.cluster;
+package com.flhai.myregistry.cluster;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
