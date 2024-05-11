@@ -44,7 +44,6 @@ public class OkHttpInvoker implements HttpInvoker {
                 .url(url)
                 .get()
                 .build();
-
         try {
             String responseJson = okHttpClient.newCall(request).execute().body().string();
             return responseJson;

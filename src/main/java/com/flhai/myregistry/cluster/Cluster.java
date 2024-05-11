@@ -77,6 +77,9 @@ public class Cluster {
     }
 
     private void syncSnapshotFromLeader() {
+        log.info("==> sync snapshot from leader.");
+        log.debug("leader: {}, myself: {}", leader(), MYSELF.isLeader());
+        log.debug("leader version: {}, my version: {}", leader().getVersion(), MYSELF.getVersion());
         if (!MYSELF.isLeader() && MYSELF.getVersion() < leader().getVersion()) {
             log.info("sync snapshot from leader: {}", leader());
             Snapshot snapshot = HttpInvoker.httpGet(leader().getUrl() + "/snapshot", Snapshot.class);
@@ -161,6 +164,7 @@ public class Cluster {
     }
 
     public Server self() {
+        MYSELF.setVersion(MyRegistryService.VERSION.get());
         return MYSELF;
     }
 

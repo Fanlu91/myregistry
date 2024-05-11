@@ -4,6 +4,7 @@ import com.flhai.myregistry.model.InstanceMeta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.Map;
@@ -12,8 +13,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Snapshot {
-    MultiValueMap<String, InstanceMeta> REGISTRY;
-
+    LinkedMultiValueMap<String, InstanceMeta> REGISTRY;
     // 版本
     Map<String, Long> VERSIONS;
     Map<String, Long> TIMESTAMP;

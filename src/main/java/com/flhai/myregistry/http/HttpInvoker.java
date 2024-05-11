@@ -18,9 +18,9 @@ public interface HttpInvoker {
 
     @SneakyThrows
     static <T> T httpGet(String url, Class<T> clazz) {
-        log.debug(" =====>>>>>> httpGet: " + url);
+        log.debug(" =====>>>> httpGet: " + url);
         String respJson = Default.get(url);
-        log.debug(" =====>>>>>> response: " + respJson);
+        log.debug(" =====>>>> response: " + respJson);
         return JSON.parseObject(respJson, clazz);
     }
 

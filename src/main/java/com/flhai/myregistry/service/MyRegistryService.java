@@ -23,7 +23,7 @@ public class MyRegistryService implements RegistryService {
     // 版本
     final static Map<String, Long> VERSIONS = new ConcurrentHashMap<>();
     public final static Map<String, Long> TIMESTAMP = new ConcurrentHashMap<>();
-    static AtomicLong VERSION = new AtomicLong(0);
+    public static AtomicLong VERSION = new AtomicLong(0);
 
     @Override
     public synchronized InstanceMeta register(String service, InstanceMeta instance) {
@@ -95,7 +95,7 @@ public class MyRegistryService implements RegistryService {
      * @return
      */
     public static synchronized Snapshot snapshot() {
-        MultiValueMap<String, InstanceMeta> registry = new LinkedMultiValueMap<>();
+        LinkedMultiValueMap<String, InstanceMeta> registry = new LinkedMultiValueMap<>();
         registry.addAll(REGISTRY);
         Map<String, Long> versions = new HashMap<>(VERSIONS);
         Map<String, Long> timestamp = new HashMap<>(TIMESTAMP);

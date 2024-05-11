@@ -9,3 +9,9 @@ myregistry:
     - http://localhost:8484
     - http://localhost:8485
     - http://localhost:8486
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.flhai: DEBUG
+
