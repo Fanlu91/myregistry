@@ -26,13 +26,21 @@ public class MyRegistryController {
     // 注册服务
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public InstanceMeta register(@RequestParam String service, @RequestBody InstanceMeta instance) {
+        checkLeader();
         log.info("==> register service: {}, instance: {}", service, instance);
         return myRegistryService.register(service, instance);
     }
 
+    private void checkLeader() {
+        if (!cluster.self().isLeader()) {
+            throw new RuntimeException("current node is not leader, the leader is " + cluster.leader().getUrl());
+        }
+    }
+
     // 注销服务
     @RequestMapping(value = "/unregister", method = RequestMethod.POST)
-    public InstanceMeta deregister(@RequestParam String service, @RequestBody InstanceMeta instance) {
+    public InstanceMeta unregister(@RequestParam String service, @RequestBody InstanceMeta instance) {
+        checkLeader();
         log.info("==> unregister service: {}, instance: {}", service, instance);
         return myRegistryService.unregister(service, instance);
     }

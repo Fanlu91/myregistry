@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ### 注册一个实例2
-POST http://localhost:8484/register?service=com.flhai.myrpc.UserService
+POST http://localhost:8485/register?service=com.flhai.myrpc.UserService
 Content-Type: application/json
 
 {

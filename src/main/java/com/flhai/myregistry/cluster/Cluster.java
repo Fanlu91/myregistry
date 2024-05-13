@@ -62,6 +62,7 @@ public class Cluster {
 
         });
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        int interval = 5;
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             log.info("cluster check running...");
             try {
@@ -73,7 +74,7 @@ public class Cluster {
                 log.error("cluster check error", e);
             }
 
-        }, 1, 5, TimeUnit.SECONDS);
+        }, 1, interval, TimeUnit.SECONDS);
     }
 
     private void syncSnapshotFromLeader() {
