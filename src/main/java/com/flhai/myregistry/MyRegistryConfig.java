@@ -1,6 +1,7 @@
 package com.flhai.myregistry;
 
 import com.flhai.myregistry.cluster.Cluster;
+import com.flhai.myregistry.cluster.ServerHealth;
 import com.flhai.myregistry.health.HealthChecker;
 import com.flhai.myregistry.health.MyHealthChecker;
 import com.flhai.myregistry.service.MyRegistryService;
@@ -30,6 +31,11 @@ public class MyRegistryConfig {
     @Bean(initMethod = "init")
     public Cluster cluster(@Autowired MyRegistryConfigProperties myRegistryConfigProperties) {
         return new Cluster(myRegistryConfigProperties);
+    }
+
+    @Bean(initMethod = "checkServerHealth")
+    public ServerHealth serverHealth(@Autowired Cluster cluster) {
+        return new ServerHealth(cluster);
     }
 
 }

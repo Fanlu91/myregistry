@@ -30,7 +30,7 @@ public class Cluster {
         this.myRegistryConfigProperties = myRegistryConfigProperties;
     }
 
-    private List<Server> serverList;
+    public List<Server> serverList;
 
     public void init() {
 
@@ -39,7 +39,10 @@ public class Cluster {
 
         Server self = new Server("http://" + host + ":" + port, true, false, -1L);
         MYSELF = self;
+        initServers();
+    }
 
+    private void initServers() {
         this.serverList = new ArrayList<>();
         myRegistryConfigProperties.getServerList().forEach(url -> {
             Server server = new Server();
@@ -59,109 +62,7 @@ public class Cluster {
                 server.setVersion(-1L);
                 serverList.add(server);
             }
-
         });
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        int interval = 5;
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            log.info("cluster check running...");
-            try {
-                updateServers();
-                electLeader();
-                syncSnapshotFromLeader();
-
-            } catch (Exception e) {
-                log.error("cluster check error", e);
-            }
-
-        }, 1, interval, TimeUnit.SECONDS);
-    }
-
-    private void syncSnapshotFromLeader() {
-        log.info("==> sync snapshot from leader.");
-        log.debug("leader: {}, myself: {}", leader(), MYSELF.isLeader());
-        log.debug("leader version: {}, my version: {}", leader().getVersion(), MYSELF.getVersion());
-        if (!MYSELF.isLeader() && MYSELF.getVersion() < leader().getVersion()) {
-            log.info("sync snapshot from leader: {}", leader());
-            Snapshot snapshot = HttpInvoker.httpGet(leader().getUrl() + "/snapshot", Snapshot.class);
-            log.info("restore snapshot: {}", snapshot);
-            MyRegistryService.restore(snapshot);
-        }
-    }
-
-    /**
-     * elect leader
-     */
-    private void electLeader() {
-        List<Server> leaders = this.serverList.stream().filter(Server::isStatus).filter(Server::isLeader).collect(Collectors.toList());
-        if (leaders.isEmpty()) {
-            log.info("elect for no leader");
-            elect();
-        } else if (leaders.size() > 1) {
-            log.info("elect for multiple leaders");
-            elect();
-        } else {
-            log.info("no need to elect, leader is {}", leaders.get(0));
-        }
-    }
-
-    /**
-     * elect 的方法
-     * 1. 各个节点自己选，算法保证大家选的是同一个
-     * 2. 外部有一个分布式锁，保证只有一个节点能够选举成功
-     * 3. 分布式一致性算法，raft, paxos, zab等
-     * <p>
-     * 这里采用1
-     */
-    private void elect() {
-        Server candidate = null;
-        for (Server server : serverList) {
-            server.setLeader(false);
-            if (server.isStatus()) {
-                if (candidate == null) {
-                    candidate = server;
-                } else {
-                    if (server.getUrl().compareTo(candidate.getUrl()) < 0) {
-                        candidate = server;
-                    }
-                }
-            }
-        }
-        if (candidate != null) {
-            candidate.setLeader(true);
-            log.info("new leader is {}", candidate);
-        } else {
-            log.info("elect failed. no server available.");
-        }
-//        MYSELF.setLeader(candidate != null && candidate.equals(MYSELF));
-    }
-
-    /**
-     * get and update all available servers
-     */
-    private void updateServers() {
-        serverList.stream().parallel().forEach(server -> {
-            try {
-                if (server.equals(MYSELF)) {
-                    return;
-                }
-                Server info = HttpInvoker.httpGet(server.getUrl() + "/info", Server.class);
-                // if info exits, then the server is available
-                if (info != null) {
-                    server.setStatus(true);
-                    server.setLeader(info.isLeader());
-                    server.setVersion(info.getVersion());
-                } else {
-                    server.setStatus(false);
-                }
-            } catch (Exception e) {
-                log.error("update server error " + server.getUrl());
-//                e.printStackTrace();
-                server.setStatus(false);
-                server.setLeader(false);
-            }
-        });
-
     }
 
     public Server self() {
