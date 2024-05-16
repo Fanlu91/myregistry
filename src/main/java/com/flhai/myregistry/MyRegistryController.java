@@ -59,13 +59,13 @@ public class MyRegistryController {
     }
 
     @RequestMapping(value = "/renew", method = RequestMethod.POST)
-    public Long renew(@RequestParam String service, @RequestBody InstanceMeta instance) {
+    public long renew(@RequestParam String service, @RequestBody InstanceMeta instance) {
         log.info("==> renew service: {}, instance: {}", service, instance);
         return myRegistryService.renew(instance, service);
     }
 
     @RequestMapping(value = "/renews", method = RequestMethod.POST)
-    public Long renews(@RequestParam String services, @RequestBody InstanceMeta instance) {
+    public long renews(@RequestParam String services, @RequestBody InstanceMeta instance) {
         log.info("==> renew services: {}, instance: {}", services, instance);
         return myRegistryService.renew(instance, services.split(","));
     }

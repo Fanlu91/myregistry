@@ -67,7 +67,7 @@ public class MyRegistryService implements RegistryService {
 
 
     @Override
-    public long renew(InstanceMeta instance, String... services) {
+    public synchronized long renew(InstanceMeta instance, String... services) {
         long now = System.currentTimeMillis();
         for (String s : services) {
             TIMESTAMP.put(s + "@" + instance.toUrl(), now);
@@ -76,7 +76,7 @@ public class MyRegistryService implements RegistryService {
     }
 
     @Override
-    public Long version(String service) {
+    public long version(String service) {
         return VERSIONS.get(service);
     }
 

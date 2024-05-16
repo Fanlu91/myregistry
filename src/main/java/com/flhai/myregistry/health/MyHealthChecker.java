@@ -37,7 +37,7 @@ public class MyHealthChecker implements HealthChecker {
                     MyRegistryService.TIMESTAMP.remove(serviceAndInstance);
                 }
             });
-        }, 10000, 10, java.util.concurrent.TimeUnit.SECONDS);
+        }, 10, 10, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     @Override

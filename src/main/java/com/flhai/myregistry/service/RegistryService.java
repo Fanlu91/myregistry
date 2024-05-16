@@ -17,7 +17,7 @@ public interface RegistryService {
     // todo 添加一些高级功能
     long renew(InstanceMeta instance, String... service);
 
-    Long version(String service);
+    long version(String service);
 
     Map<String, Long> versions(String... services);
 }
