@@ -32,7 +32,9 @@ nacos主要实现了naming 注册 和 config 配置，这两者底座很像，�
 
 
 
-## 架构升级
+## 架构设计
+
+![](assets/2024-05-13-18-49-55-image.png)
 
 
 
@@ -129,3 +131,11 @@ public class GlobalExceptionHandler {
 # 问题
 
 ServerHealth 为什么不用spring做声明周期管理？
+
+
+
+
+
+# Todo
+
+renew 返回version

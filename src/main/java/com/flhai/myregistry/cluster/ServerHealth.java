@@ -38,7 +38,7 @@ public class ServerHealth {
     }
 
     private void syncSnapshotFromLeader() {
-        log.info("==> sync snapshot from leader.");
+        log.info("==> try sync snapshot from leader.");
         log.debug("leader: {}, cluster.MYSELF: {}", cluster.leader(), cluster.MYSELF.isLeader());
         log.debug("leader version: {}, my version: {}", cluster.leader().getVersion(), cluster.MYSELF.getVersion());
         if (!cluster.MYSELF.isLeader() && cluster.MYSELF.getVersion() < cluster.leader().getVersion()) {

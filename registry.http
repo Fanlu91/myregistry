@@ -1,5 +1,5 @@
 ### 获取所有服务实例84
-GET http://localhost:8484/findAll?service=com.flhai.myrpc.UserService
+GET http://localhost:8484/findAll?service=app1_public_dev_com.flhai.myrpc.demo.api.OrderService
 
 ### 获取所有服务实例85
 GET http://localhost:8485/findAll?service=com.flhai.myrpc.UserService
@@ -8,7 +8,7 @@ GET http://localhost:8485/findAll?service=com.flhai.myrpc.UserService
 GET http://localhost:8485/findAll?service=com.flhai.myrpc.UserService
 
 ### 注册一个实例
-POST http://localhost:8484/register?service=com.flhai.myrpc.UserService
+POST http://localhost:8484/register?service=app1_public_dev_com.flhai.myrpc.demo.api.UserService
 Content-Type: application/json
 
 {
@@ -22,6 +22,12 @@ Content-Type: application/json
     "tag": "RED"
   }
 }
+
+### 注册一个实例
+POST http://localhost:8484/register?service=com.flhai.myrpc.UserService
+Content-Type: application/json
+
+{"context":"myrpc","host":"127.0.0.1","parameters":{"maxToken":"3","unit":"unit0","refillInterval":"300000","grey":"false","dc":"dc0"},"port":8081,"schema":"http","status":true}
 
 ### 注册一个实例2
 POST http://localhost:8485/register?service=com.flhai.myrpc.UserService

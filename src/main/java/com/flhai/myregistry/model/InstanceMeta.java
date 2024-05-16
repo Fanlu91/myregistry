@@ -14,10 +14,10 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"scheme", "host", "port", "context"})
+@EqualsAndHashCode(of = {"schema", "host", "port", "context"})
 public class InstanceMeta {
 
-    private String scheme;
+    private String schema;
     private String host;
     private Integer port;
     private String context; // dubbo url?k1=v1
@@ -25,8 +25,8 @@ public class InstanceMeta {
     private boolean status; // online or offline
     private Map<String, String> parameters = new HashMap<>();  // idc  A B C
 
-    public InstanceMeta(String scheme, String host, Integer port, String context) {
-        this.scheme = scheme;
+    public InstanceMeta(String schema, String host, Integer port, String context) {
+        this.schema = schema;
         this.host = host;
         this.port = port;
         this.context = context;
@@ -45,7 +45,7 @@ public class InstanceMeta {
     }
 
     public String toUrl() {
-        return String.format("%s://%s:%d/%s", scheme, host, port, context);
+        return String.format("%s://%s:%d/%s", schema, host, port, context);
     }
 
     public static InstanceMeta http(String host, Integer port) {

@@ -4,14 +4,22 @@ server:
 spring:
   application:
     name: myregistry
+#  jackson:
+#    parser:
+#      allow-unquoted-control-chars: true
+
 myregistry:
   serverList:
     - http://localhost:8484
     - http://localhost:8485
     - http://localhost:8486
+
 logging:
   level:
     root: INFO
     org.springframework: INFO
     com.flhai: DEBUG
-
+    com.flhai.myregistry.cluster: ERROR
+    com.flhai.myregistry.http: INFO
+  pattern:
+    console: "%d{HH:mm:ss} %-5level - %msg%n"

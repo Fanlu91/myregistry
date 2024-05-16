@@ -1,6 +1,7 @@
 package com.flhai.myregistry;
 
 
+import com.alibaba.fastjson.JSON;
 import com.flhai.myregistry.cluster.Cluster;
 import com.flhai.myregistry.cluster.Server;
 import com.flhai.myregistry.cluster.Snapshot;
@@ -25,10 +26,13 @@ public class MyRegistryController {
 
     // 注册服务
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public InstanceMeta register(@RequestParam String service, @RequestBody InstanceMeta instance) {
+    public InstanceMeta register(@RequestParam String service, @RequestBody String instance) {
+
+        log.info("==> register service: {}", service);
+        log.info("==> instance: {}", instance);
         checkLeader();
-        log.info("==> register service: {}, instance: {}", service, instance);
-        return myRegistryService.register(service, instance);
+        InstanceMeta instanceMeta = JSON.parseObject(instance, InstanceMeta.class);
+        return myRegistryService.register(service, instanceMeta);
     }
 
     private void checkLeader() {
